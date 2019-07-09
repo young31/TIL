@@ -36,7 +36,7 @@ ctrl + /  >>  원문표시
 
 1. (1. )
 
-#목차#  >>  [TOC]
+
 
 [python]('https://www.python.org')
 
