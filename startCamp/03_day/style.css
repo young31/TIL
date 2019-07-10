@@ -1,0 +1,18 @@
+/* 스타일 정하기 // ';' 필수!!*/
+h2 {
+    color:lightsteelblue;
+}
+/* 요소 선택은 구분x */
+#description {
+    background-color: blanchedalmond;
+}
+/* id는 #으로 가져옵니다 */
+.list-item{
+    font-size: 40px
+}
+/* class는 '.'으로 가져옵니다 */
+/* li.list_item으로 li중에 ~~인 친구들로 설정도 가능합니다 */
+ul li {
+    background-color: mediumpurple;
+}
+/* ul에 있는 li들은 이렇게 개별 지정 */
