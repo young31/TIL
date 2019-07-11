@@ -67,25 +67,24 @@ def lotto_result():
     lotto_round = request.args.get('round')
     lotto_numbers = request.args.get('numbers').split( )
 
-    url = f'https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo={lotto_round}'
+    url = f'https://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo={lotto_round}'
     response = requests.get(url)
     # return  response
     lotto_info = response.json() # json 타입의 파일을 python dict로 파싱
     ans = {}
     for i in range(1,7):
-        ans[f'drwtNo{i}'] = lotto_info[f'drwtNo{i}']
+        ans[f'drwtNo{i}'] = str(lotto_info[f'drwtNo{i}'])
 
-    bon = ans[f'drwtNo{7}'] = lotto_info['nusNo']
-    if set(ans.values() + lotto_numbers) == 6:
-        return '1st'  
-    # elif lotto_numbers in bon.values():
-    #     prize = '2nd'
-    # elif len(set(lotto_numbers + ans.values())) == 7:
-    #     prize = '3rd'
+    print(list(ans.values())[:7])
+    if len(set(list(ans.values())[:6] +lotto_numbers)) == 6:
+        return '1st' 
+    elif len(set(list(ans.values()) +lotto_numbers)) == 7:
+        return '2nd'
+    elif len(set(list(ans.values())[:6] +lotto_numbers)) == 7:
+        return '3rd'
     else: 
         return 'NO'
-    print(bon.values())
-    
+    print(set(list(ans.values()) +lotto_numbers))
 
 
 
