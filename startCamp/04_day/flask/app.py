@@ -50,6 +50,46 @@ def ascii_result():
     result = response.text
     return render_template('ascii_result.html', result=result)
 
+#############################################################################
+##!!! route는 2개로 거의 모든 기능 구현 가능!!!
+
+# 1. 사용자가 입력할 페이지를 보여주기만 하면 됨
+@app.route('/lotto_input')
+def lotto_input():
+    return  render_template('lotto_input.html')
+
+
+# 2. 입력하면 처리해서 보여주기 위한 준비
+#       >> 사실상 작업 환경
+
+@app.route('/lotto_result')
+def lotto_result():
+    lotto_round = request.args.get('round')
+    lotto_numbers = request.args.get('numbers').split( )
+
+    url = f'https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo={lotto_round}'
+    response = requests.get(url)
+    # return  response
+    lotto_info = response.json() # json 타입의 파일을 python dict로 파싱
+    ans = {}
+    for i in range(1,7):
+        ans[f'drwtNo{i}'] = lotto_info[f'drwtNo{i}']
+
+    bon = ans[f'drwtNo{7}'] = lotto_info['nusNo']
+    if set(ans.values() + lotto_numbers) == 6:
+        return '1st'  
+    # elif lotto_numbers in bon.values():
+    #     prize = '2nd'
+    # elif len(set(lotto_numbers + ans.values())) == 7:
+    #     prize = '3rd'
+    else: 
+        return 'NO'
+    print(bon.values())
+    
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
