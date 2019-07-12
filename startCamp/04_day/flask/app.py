@@ -71,23 +71,38 @@ def lotto_result():
     response = requests.get(url)
     # return  response
     lotto_info = response.json() # json 타입의 파일을 python dict로 파싱
+    
     ans = {}
     for i in range(1,7):
         ans[f'drwtNo{i}'] = str(lotto_info[f'drwtNo{i}'])
+    ans['bnusNo'] = str(lotto_info['bnusNo'])
 
-    print(list(ans.values())[:7])
-    if len(set(list(ans.values())[:6] +lotto_numbers)) == 6:
-        return '1st' 
+    comp = len(set(list(ans.values())[:6] +lotto_numbers))
+    
+    prize ='NO'
+    amt = 0
+    if comp == 6:
+        prize = '1st' 
+        amt = lotto_info["firstWinamnt"]
     elif len(set(list(ans.values()) +lotto_numbers)) == 7:
-        return '2nd'
-    elif len(set(list(ans.values())[:6] +lotto_numbers)) == 7:
-        return '3rd'
-    else: 
-        return 'NO'
-    print(set(list(ans.values()) +lotto_numbers))
+        prize = '2nd'
+    elif comp == 7:
+        prize = '3rd'
+    elif comp == 8:
+        prize = '4th'
+    elif comp == 9:
+        prize = '5th'
 
 
-
+    #########################################
+    # if len(lotto_numbers) == 6:
+    #     matched = 0
+    #     for num in lotto_numbers:
+    #         if num in list(ans.values()):
+    #             matched += 1
+    #     if ~ 
+    
+    return render_template('lotto_result.html', prize=prize, amt=amt)
 
 
 if __name__ == '__main__':
